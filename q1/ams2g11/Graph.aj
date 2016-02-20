@@ -77,6 +77,15 @@ public aspect Graph
 	private PrintWriter pathsWriter;
 	
 	/**
+	 * Init the file writers
+	 */
+	Graph() throws Exception
+	{
+		nodesWriter = new PrintWriter("q1-nodes.csv", "UTF-8");
+		pathsWriter = new PrintWriter("q1-edges.csv", "UTF-8");
+	}
+
+	/**
 	 * Run this before a node is executed
 	 *
 	 * If the calling method is also a node, we'll register this as a link
@@ -149,30 +158,4 @@ public aspect Graph
 			calls.pop();
 		}
 	};
-
-	/**
-	 * Init the file writers
-	 */
-	before(): main()
-	{
-		try
-		{
-			nodesWriter = new PrintWriter("q1-nodes.csv", "UTF-8");
-			pathsWriter = new PrintWriter("q1-edges.csv", "UTF-8");
-		}
-		catch (Exception e) {}
-	}
-
-	/**
-	 * Close the file writers
-	 */
-	after(): main()
-	{
-		try
-		{
-			nodesWriter.close();
-			pathsWriter.close();
-		}
-		catch (Exception e) {}
-	}
 };
