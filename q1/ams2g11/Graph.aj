@@ -148,6 +148,8 @@ public aspect Graph
      */
     after(): allCalls() || node()
     {
+        // It is possible for the call stack to be empty, if a node is called
+        // from outside the q1 package
         if (!calls.empty())
         {
             calls.pop();
