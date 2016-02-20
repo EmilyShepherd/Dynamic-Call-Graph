@@ -6,11 +6,12 @@ import java.io.PrintWriter;
 
 public aspect Graph
 {
-	pointcut q1PubCall() :  execution(public int q1..*(int));
-	pointcut notStack()  : !call(* java.util.Stack.*(..));
-	pointcut allCalls()  :  call(* *(..)) && notStack();
-	pointcut inside()    :  within(q1..*);
-	pointcut outside()   : !inside();
+	pointcut node()     : execution(public int q1..*(int));
+	pointcut nodeCall() : call(public int q1..*(int));
+	pointcut stack()    : call(* java.util.Stack.*(..));
+	pointcut allCalls() : call(* *(..)) && !stack() && !nodeCall();
+	pointcut inside()   : within(q1..*);
+	pointcut main()     : execution(static void main(String[]));
 
 	private ArrayList nodes = new ArrayList();
 	private ArrayList paths = new ArrayList();
@@ -18,7 +19,7 @@ public aspect Graph
 	private PrintWriter nodesWriter;
 	private PrintWriter pathsWriter;
 
-	before(): execution(public int q1..*(int))
+	before(): node()
 	{
 		if (!calls.empty() && calls.peek() != null)
 		{
@@ -44,13 +45,12 @@ public aspect Graph
 		add(node, nodes, nodesWriter);
 	}
 
-	before(): allCalls() && !call(public int q1..*(int))
+	before(): allCalls()
 	{
-		//System.out.println(thisJoinPoint.getSignature().toString());
 		calls.push(null);
 	};
 
-	after(): (allCalls() && !call(public int q1..*(int))) || execution(public int q1..*(int))
+	after(): allCalls() || node()
 	{
 		if (!calls.empty())
 		{
@@ -58,7 +58,7 @@ public aspect Graph
 		}
 	};
 
-	before(): execution(static void main(String[]))
+	before(): main()
 	{
 		try
 		{
@@ -68,7 +68,7 @@ public aspect Graph
 		catch (Exception e) {}
 	}
 
-	after(): execution(static void main(String[]))
+	after(): main()
 	{
 		try
 		{
