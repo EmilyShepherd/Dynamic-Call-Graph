@@ -5,7 +5,6 @@ import java.util.Stack;
 import java.io.PrintWriter;
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
-import java.lang.SecurityException;
 import org.aspectj.lang.Signature;
 
 public aspect Graph
