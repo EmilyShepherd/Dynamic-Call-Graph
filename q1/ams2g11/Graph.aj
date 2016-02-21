@@ -115,6 +115,7 @@ public aspect Graph
         {
             list.add(item);
             writer.write(item + "\r\n");
+            writer.flush();
         }
     }
 
