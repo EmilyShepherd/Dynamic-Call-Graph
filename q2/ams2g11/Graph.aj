@@ -93,7 +93,7 @@ public aspect Graph
      */
     before(): node()
     {
-        // Let's record outselfs as the current method
+        // Let's record ourselves as the current method
         calls.push(thisJoinPoint.getSignature());
     };
 
@@ -152,13 +152,22 @@ public aspect Graph
         }
     };
 
+    /**
+     * If a node throws an error, we should simply pop it from the stack and
+     * ignore it
+     */
     after() throwing: node()
     {
         calls.pop();
     }
 
+    /**
+     * If the node returns as expected, then we will handle it as we did in q1
+     */
     after() returning: node()
     {
+        // Slightly different from Q1, because this is executing after the node
+        // execution, we have to pop that off the stack first.
         Signature node = (Signature)calls.pop();
 
         // Check the stack for the previous call

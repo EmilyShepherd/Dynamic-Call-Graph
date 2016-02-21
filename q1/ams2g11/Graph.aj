@@ -103,7 +103,7 @@ public aspect Graph
             add(calls.peek() + "," + thisJoinPoint.getSignature(), paths, pathsWriter);
         }
 
-        // Let's record outselfs as the current method
+        // Let's record ourselves as the current method
         calls.push(thisJoinPoint.getSignature());
     };
 
