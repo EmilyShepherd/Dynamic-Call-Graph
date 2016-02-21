@@ -3,6 +3,9 @@ package q1.ams2g11;
 import java.util.ArrayList;
 import java.util.Stack;
 import java.io.PrintWriter;
+import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
+import java.lang.SecurityException;
 
 public aspect Graph
 {
@@ -73,8 +76,11 @@ public aspect Graph
     
     /**
      * Init the file writers
+     *
+     * @throws FileNotFoundException If the Working Directory is write protected
+     * @throws UnsupportedEncodingException If UTF-8 isn't supported
      */
-    Graph() throws Exception
+    Graph() throws FileNotFoundException, UnsupportedEncodingException
     {
         nodesWriter = new PrintWriter("q1-nodes.csv", "UTF-8");
         pathsWriter = new PrintWriter("q1-edges.csv", "UTF-8");
