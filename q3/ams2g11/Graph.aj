@@ -61,13 +61,20 @@ public aspect Graph
     private Stack calls   = new Stack();
     
     /**
+     * The file writer for the list of failure percentages
      */
     private PrintWriter failuresWriter;
     
     /**
+     * The file writer for the list of runtime averages and standard deviation
      */
     private PrintWriter runtimesWriter;
 
+    /**
+     * Details about the current method
+     *
+     * This has been designed to look similar to AspectJ's thisJoinPoint
+     */
     private MethodDetails thisMethodDetails;
     
     /**
@@ -150,6 +157,14 @@ public aspect Graph
         }
     }
 
+    /**
+     * Runs at the end of node execution
+     *
+     * This creates the thisMethodDetails property, and logs the run time
+     *
+     * @param JoinPoint jp The current Join Point (thisJoinPoint isn't
+     *     accessible from method calls)
+     */
     private boolean callerIsNode(JoinPoint jp)
     {
         // AspectJ seems to default to source level 1.4 for some mad reason,
@@ -175,9 +190,14 @@ public aspect Graph
         }
     }
 
+    /**
+     * Runs after the execution of main() to save the files
+     *
+     * This saves each of the method hist files and the two overall runtime
+     * and failures files
+     */
     after(): execution(public static void main(String[]))
     {
-
         Iterator it = MethodDetails.getAll().entrySet().iterator();
 
         while (it.hasNext())
