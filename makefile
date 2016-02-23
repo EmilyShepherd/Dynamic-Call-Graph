@@ -38,7 +38,7 @@ runtests: test1 test2 test3
 
 # Runs a specific test
 test%: q%.jar
-	$(JAVA) -cp "$(ASPECTJRT);$<" $(basename $<).ams2g11.Main
+	$(JAVA) -cp "$(ASPECTJRT);$<" $(basename $<).$(USER).Main
 
 
 ####
