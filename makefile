@@ -22,6 +22,7 @@ test%: q%.jar
 
 cleanall: clean
 	rm -f *.jar
+	rm -f ajcore.*.txt
 
 clean:
 	rm -f *.csv
