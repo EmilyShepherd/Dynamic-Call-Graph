@@ -43,7 +43,7 @@ class MethodDetails
 
     public double getFailFreq()
     {
-        return failures / runtimes.size() * 100;
+        return (double)failures / (double)runtimes.size() * 100;
     }
 
     public void addIn(int in)
