@@ -12,18 +12,22 @@ public class B
 	
 	public int bar(int b)
 	{
-		if (b % 2 == 0) throw new RuntimeException();
+		if (b % 2 == 0) throw new TestingException();
 		
 		return baz(b);
 	}
 	
 	public int baz(int a)
 	{
+		a = a % 7;
+
 		for (int i = 0; i < a * a; i++)
 		{
-			try {
-			Thread.sleep(200);
-			} catch (Exception e) {}
+			try
+			{
+				Thread.sleep(200);
+			}
+			catch (Exception e) {}
 		}
 		return a + a;
 	}
