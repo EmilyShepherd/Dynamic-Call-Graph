@@ -23,7 +23,7 @@ all: q1.jar q2.jar q3.jar
 # To compile each JAR, compile the java files in its directory,
 # including the user's subdirectory, along with all AspectJ files
 # found
-%.jar: %/$(USER)/*
+%.jar: %/$(USER)/*.aj %/*.java %/$(USER)/*.java
 	$(AJC) $^ -outjar $@
 
 # Make the archive file for submission
