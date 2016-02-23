@@ -44,10 +44,8 @@ test%: q%.jar
 ####
 
 # Deletes everything
-cleanall: clean
-	rm -f *.jar
-	rm -f ajcore.*.txt
-	rm -f $(ARCHIVE).zip
+cleanall:
+	rm -f *.csv *.jar ajcore.*.txt $(ARCHIVE).zip
 
 # Deletes the output of running the code
 clean:
