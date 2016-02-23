@@ -12,7 +12,7 @@ public class B
 	{
 		baz(b);
 
-		if (b == 1) throw new RuntimeException();
+		if (b == 1) throw new TestingException();
 		
 		return baz(b);
 	}

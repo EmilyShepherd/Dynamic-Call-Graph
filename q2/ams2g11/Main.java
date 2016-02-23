@@ -1,6 +1,7 @@
 package q2.ams2g11;
 
 import q2.B;
+import q2.TestingException;
 
 public class Main
 {
@@ -8,6 +9,10 @@ public class Main
 	{
 		B a = new B();
 
-		System.out.println(a.foo(4));
+        try
+        {
+            a.foo(3);
+        }
+        catch (TestingException e) {}
 	}
 }
