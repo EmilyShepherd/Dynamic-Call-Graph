@@ -185,6 +185,7 @@ public aspect Graph
             Map.Entry entry  = (Map.Entry)it.next();
             MethodDetails md = (MethodDetails)entry.getValue();
             md.calculate();
+            md.save();
 
             failuresWriter.println(entry.getKey() + "," + md.getFailFreq());
             runtimesWriter.println(entry.getKey() + "," + md.getMean() + "," + md.getStandardDeviation());

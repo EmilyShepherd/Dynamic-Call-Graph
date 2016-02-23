@@ -3,6 +3,10 @@ package q3.ams2g11;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.io.PrintWriter;
+import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
 import org.aspectj.lang.Signature;
 
 class MethodDetails
@@ -13,7 +17,7 @@ class MethodDetails
     {
         if (!methods.containsKey(signature))
         {
-            methods.put(signature, new MethodDetails());
+            methods.put(signature, new MethodDetails(signature));
         }
 
         return (MethodDetails)methods.get(signature);
@@ -30,10 +34,12 @@ class MethodDetails
     private int failures       = 0;
     private double mean;
     private double sd;
+    private Signature signature;
+    private PrintWriter file;
 
-    private MethodDetails()
+    private MethodDetails(Signature signature)
     {
-        //
+        this.signature = signature;
     }
 
     public void addFailure()
@@ -101,5 +107,38 @@ class MethodDetails
     public double getStandardDeviation()
     {
         return sd;
+    }
+
+    public void save()
+    {
+        try
+        {
+            file = new PrintWriter(signature + "-hist.csv", "UTF-8");
+
+            saveFreqs(inFreqs,  "param");
+            saveFreqs(outFreqs, "return");
+
+            file.close();
+        }
+        catch (FileNotFoundException e)
+        {
+            throw new RuntimeException("File not writable");
+        }
+        catch (UnsupportedEncodingException e)
+        {
+            throw new RuntimeException("UTF8 not supported");
+        }
+    }
+
+    private void saveFreqs(HashMap freqs, String type)
+    {
+        Iterator it = freqs.entrySet().iterator();
+
+        while (it.hasNext())
+        {
+            Map.Entry entry = (Map.Entry)it.next();
+
+            file.println(type + "," + entry.getKey() + "," + entry.getValue());
+        }
     }
 }
