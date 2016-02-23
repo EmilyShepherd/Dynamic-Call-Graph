@@ -1,6 +1,4 @@
-package q1.ams2g11;
-
-import q1.B;
+package q1;
 
 public class Main
 {

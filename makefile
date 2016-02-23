@@ -23,7 +23,7 @@ all: q1.jar q2.jar q3.jar
 # To compile each JAR, compile the java files in its directory,
 # including the user's subdirectory, along with all AspectJ files
 # found
-%.jar: %/$(USER)/*.aj %/*.java %/$(USER)/*.java
+%.jar: %/$(USER)/*.aj %/*.java $(wildcard %/$(USER)/*.java)
 	$(AJC) $^ -outjar $@
 
 # Make the archive file for submission
@@ -38,7 +38,7 @@ runtests: test1 test2 test3
 
 # Runs a specific test
 test%: q%.jar
-	$(JAVA) -cp "$(ASPECTJRT);$<" $(basename $<).$(USER).Main
+	$(JAVA) -cp "$(ASPECTJRT);$<" $(basename $<).Main
 
 
 ####

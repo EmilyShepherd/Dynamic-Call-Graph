@@ -1,7 +1,4 @@
-package q2.ams2g11;
-
-import q2.B;
-import q2.TestingException;
+package q2;
 
 public class Main
 {

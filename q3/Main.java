@@ -1,7 +1,5 @@
-package q3.ams2g11;
+package q3;
 
-import q3.B;
-import q3.TestingException;
 import java.lang.StringBuilder;
 
 public class Main
