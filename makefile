@@ -2,15 +2,17 @@
 # Location of AspectJ Compiler script
 AJC         = ajc
 
-# Location of Java command
+# Location of Java and Jar commands
 JAVA        = java
+JAR         = "C:/Program Files/Java/jdk1.8.0_73/bin/jar"
 
 # Location of AspectJ library directory and runtime JAR
 ASPECT_HOME = C:/aspectj1.8/lib/
 ASPECTJRT   = $(ASPECT_HOME)aspectjrt.jar
 
-# The username
+# The username and archive names
 USER        = ams2g11
+ARCHIVE     = COMP6209_$(USER)
 
 
 ################################################################
@@ -21,9 +23,13 @@ all: q1.jar q2.jar q3.jar
 # To compile each JAR, compile the java files in its directory,
 # including the user's subdirectory, along with all AspectJ files
 # found
-%.jar: %/$(USER)/*.aj %/*.java %/$(USER)/*.java
+%.jar: %/$(USER)/*
 	$(AJC) $^ -outjar $@
 
+# Make the archive file for submission
+archive: $(ARCHIVE).zip
+$(ARCHIVE).zip: q*/$(USER)/*
+	$(JAR) cMf $@ $^
 
 ####
 
@@ -41,6 +47,7 @@ test%: q%.jar
 cleanall: clean
 	rm -f *.jar
 	rm -f ajcore.*.txt
+	rm -f $(ARCHIVE).zip
 
 # Deletes the output of running the code
 clean:
@@ -49,5 +56,5 @@ clean:
 
 ####
 
-.PHONY: all clean cleanall
+.PHONY: all clean cleanall archive
 
