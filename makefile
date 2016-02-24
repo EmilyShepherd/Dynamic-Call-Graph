@@ -27,8 +27,8 @@ all: q1.jar q2.jar q3.jar
 %.jar: %/$(USER)/*.aj %/*.java $(wildcard */$(USER)/*.java)
 	$(AJC) $^ -outjar $@
 
-TestHarness.class: TestHarness.java q1.jar q2.jar q3.jar
-	$(JAVAC) -cp "q1.jar;q2.jar;q3.jar" TestHarness.java
+TestHarness.class: TestHarness.java
+	$(JAVAC) TestHarness.java
 
 # Make the archive file for submission
 archive: $(ARCHIVE).zip

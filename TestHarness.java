@@ -1,19 +1,20 @@
 
+import java.lang.Class;
+import java.lang.reflect.Method;
+
 public class TestHarness
 {
-    public static void main(String[] args)
+    public static void main(String[] args) throws Exception
     {
-        if (args[0].equals("q1"))
+        Class c = Class.forName(args[0] + ".Main");
+        Method[] allMethods = c.getDeclaredMethods();
+
+        for (Method m : allMethods)
         {
-            q1.Main.main(null);
-        }
-        else if (args[0].equals("q2"))
-        {
-            q2.Main.main(null);
-        }
-        else if (args[0].equals("q3"))
-        {
-            q3.Main.main(null);
+            if (m.getName().equals("main"))
+            {
+                m.invoke(c.newInstance(), (Object)null);
+            }
         }
     }
 }
