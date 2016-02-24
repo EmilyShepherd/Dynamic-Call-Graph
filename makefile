@@ -1,19 +1,20 @@
 
 # Location of AspectJ Compiler script
-AJC         = ajc
+AJC          = ajc
 
 # Location of Java and Jar commands
-JAVA        = java
-JAR         = "C:/Program Files/Java/jdk1.8.0_73/bin/jar"
-JAVAC       = "C:/Program Files/Java/jdk1.8.0_73/bin/javac"
+JAVA         = java
+JAR          = "C:/Program Files/Java/jdk1.8.0_73/bin/jar"
+JAVAC        = "C:/Program Files/Java/jdk1.8.0_73/bin/javac"
 
 # Location of AspectJ library directory and runtime JAR
-ASPECT_HOME = C:/aspectj1.8/lib/
-ASPECTJRT   = $(ASPECT_HOME)aspectjrt.jar
+ASPECT_HOME  = C:/aspectj1.8/lib/
+ASPECTJRT    = $(ASPECT_HOME)aspectjrt.jar
 
 # The username and archive names
-USER        = ams2g11
-ARCHIVE     = COMP6209_$(USER)
+USER         = ams2g11
+ARCHIVE      = COMP6209_$(USER)
+TEST_ARCHIVE = COMP6209_harness
 
 
 ################################################################
@@ -36,8 +37,14 @@ TestHarness.class: TestHarness.java
 # Make the archive file for submission
 archive: $(ARCHIVE).zip
 $(ARCHIVE).zip: q*/$(USER)/*
-	$(JAR) cMf $@ $^
 
+# Make the archive file for sharing the test harness
+harness: $(TEST_ARCHIVE).zip
+$(TEST_ARCHIVE).zip: TestHarness.java makefile readme.md q*/*.java
+
+# Actually make the zip files
+%.zip:
+	$(JAR) cMf $@ $^
 
 ####
 
@@ -53,7 +60,7 @@ test%: q%.jar TestHarness.class
 
 # Deletes everything
 cleanall:
-	rm -f *.class *.csv *.jar ajcore.*.txt $(ARCHIVE).zip
+	rm -f *.class *.csv *.jar ajcore.*.txt $(ARCHIVE).zip $(TEST_ARCHIVE).zip
 
 # Deletes the output of running the code
 clean:
@@ -62,7 +69,7 @@ clean:
 
 ####
 
-.PHONY: all clean cleanall archive
+.PHONY: all clean cleanall archive harness
 
 # JAR dependencies
 q1.jar: q1/$(USER)/*.aj q1/*.java $(wildcard q1/$(USER)/*.java)
