@@ -24,8 +24,11 @@ all: q1.jar q2.jar q3.jar
 # To compile each JAR, compile the java files in its directory,
 # including the user's subdirectory, along with all AspectJ files
 # found
-%.jar: %/$(USER)/*.aj %/*.java $(wildcard */$(USER)/*.java)
+%.jar:
 	$(AJC) $^ -outjar $@
+
+
+####
 
 TestHarness.class: TestHarness.java
 	$(JAVAC) TestHarness.java
@@ -61,3 +64,7 @@ clean:
 
 .PHONY: all clean cleanall archive
 
+# JAR dependencies
+q1.jar: q1/$(USER)/*.aj q1/*.java $(wildcard q1/$(USER)/*.java)
+q2.jar: q2/$(USER)/*.aj q2/*.java $(wildcard q2/$(USER)/*.java)
+q3.jar: q3/$(USER)/*.aj q3/*.java $(wildcard q3/$(USER)/*.java)
