@@ -42,8 +42,8 @@ bin/%.class: %.aj bin/.keep
 	touch $@
 
 # Build the test JAR
-test.jar: bin/$(basename $(wildcard test/*.java)).class
-	cd bin && $(JAR) cf ../$@ $(basename $@)/$(notdir $^)
+test.jar: $(addprefix bin/,$(addsuffix .class,$(basename $(wildcard test/*.java))))
+	cd bin && $(JAR) cf ../$@ $(addprefix $(basename $@)/,$(notdir $^))
 
 
 ####
