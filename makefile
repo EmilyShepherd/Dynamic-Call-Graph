@@ -20,7 +20,7 @@ TEST_ARCHIVE = COMP6209_harness
 ################################################################
 
 # By default, compile everything
-all: q1.jar q2.jar q3.jar test.jar
+all: q1.jar q2.jar q3.jar
 
 # To compile each JAR, compile the java files in its directory,
 # including the user's subdirectory, along with all AspectJ files
@@ -87,6 +87,8 @@ clean:
 .PHONY: all clean cleanall archive harness
 
 # JAR dependencies
-q1.jar: $(addsuffix .class,$(basename $(addprefix bin/,$(wildcard q1/*.java) $(wildcard q1/$(USER)/*.java) $(wildcard q1/$(USER)/*.aj))))
-q2.jar: $(addsuffix .class,$(basename $(addprefix bin/,$(wildcard q2/*.java) $(wildcard q2/$(USER)/*.java) $(wildcard q2/$(USER)/*.aj))))
-q3.jar: $(addsuffix .class,$(basename $(addprefix bin/,$(wildcard q3/*.java) $(wildcard q3/$(USER)/*.java) $(wildcard q3/$(USER)/*.aj))))
+q1.jar: $(addsuffix .class,$(basename $(addprefix bin/,$(wildcard q1/*.java q1/$(USER)/*.java q1/$(USER)/*.aj))))
+q2.jar: $(addsuffix .class,$(basename $(addprefix bin/,$(wildcard q2/*.java q2/$(USER)/*.java q2/$(USER)/*.aj))))
+q3.jar: $(addsuffix .class,$(basename $(addprefix bin/,$(wildcard q3/*.java q3/$(USER)/*.java q3/$(USER)/*.aj))))
+
+$(addsuffix .class,$(basename $(addprefix bin/,$(wildcard q*/*.java)))): test.jar
