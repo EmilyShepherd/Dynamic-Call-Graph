@@ -8,7 +8,7 @@ JAR          = "C:/Program Files/Java/jdk1.8.0_73/bin/jar"
 JAVAC        = "C:/Program Files/Java/jdk1.8.0_73/bin/javac"
 
 # Location of AspectJ library directory and runtime JAR
-ASPECT_HOME  = C:/aspectj1.8/lib/
+ASPECT_HOME  = /aspectj1.8/lib/
 ASPECTJRT    = $(ASPECT_HOME)aspectjrt.jar
 
 # The username and archive names
@@ -26,16 +26,24 @@ all: q1.jar q2.jar q3.jar test.jar
 # including the user's subdirectory, along with all AspectJ files
 # found
 %.jar:
-	$(AJC) $^ -outjar $@
+	$(AJC) -inpath bin/ -aspectpath bin/$(basename $@)/$(USER) -outjar $@
 
-# Build test harness class files
-bin/test/%.class: test/%.java
-	if ! [ -d bin ]; then mkdir bin; fi
-	$(JAVAC) -implicit:none -d bin $<
+# Build Native Java class files
+bin/%.class: %.java bin/.keep
+	$(JAVAC) -classpath "./;$(ASPECTJRT)" -implicit:none -d bin $<
+
+# Build AspectJ class files
+bin/%.class: %.aj bin/.keep
+	$(AJC) -d bin -classpath "bin;$(ASPECTJRT)" $<
+
+# Makes the bin folder, required by JavaC
+%/.keep:
+	@if ! [ -d $(dir $@) ]; then mkdir $(dir $@); fi
+	touch $@
 
 # Build the test JAR
 test.jar: bin/$(basename $(wildcard test/*.java)).class
-	cd bin && $(JAR) cf ../$@ test/$(notdir $^)
+	cd bin && $(JAR) cf ../$@ $(basename $@)/$(notdir $^)
 
 
 ####
@@ -79,6 +87,6 @@ clean:
 .PHONY: all clean cleanall archive harness
 
 # JAR dependencies
-q1.jar: q1/$(USER)/*.aj q1/*.java $(wildcard q1/$(USER)/*.java)
-q2.jar: q2/$(USER)/*.aj q2/*.java $(wildcard q2/$(USER)/*.java)
-q3.jar: q3/$(USER)/*.aj q3/*.java $(wildcard q3/$(USER)/*.java)
+q1.jar: $(addsuffix .class,$(basename $(addprefix bin/,$(wildcard q1/*.java) $(wildcard q1/$(USER)/*.java) $(wildcard q1/$(USER)/*.aj))))
+q2.jar: $(addsuffix .class,$(basename $(addprefix bin/,$(wildcard q2/*.java) $(wildcard q2/$(USER)/*.java) $(wildcard q2/$(USER)/*.aj))))
+q3.jar: $(addsuffix .class,$(basename $(addprefix bin/,$(wildcard q3/*.java) $(wildcard q3/$(USER)/*.java) $(wildcard q3/$(USER)/*.aj))))
