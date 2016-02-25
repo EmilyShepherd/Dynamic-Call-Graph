@@ -34,16 +34,16 @@ all: q1.jar q2.jar q3.jar
 	mv -f bin/.tmp/$(basename $@) bin
 
 # Build Native Java class files
-bin/%.class: %.java bin/.keep
+bin/%.class: %.java bin/.tmp/.keep
 	$(JAVAC) -cp "./;$(ASPECTJRT);test.jar" -implicit:none -d bin $<
 
 # Build AspectJ class files
-bin/%.class: %.aj bin/.keep
+bin/%.class: %.aj bin/.tmp/.keep
 	$(AJC) -d bin -cp "bin;$(ASPECTJRT)" $<
 
 # Makes the bin folder, required by JavaC
 %/.keep:
-	@if ! [ -d $(dir $@) ]; then mkdir $(dir $@); fi
+	@if ! [ -d $(dir $@) ]; then mkdir -p $(dir $@); fi
 
 # Build the test JAR
 test.jar: $(addprefix bin/,$(addsuffix .class,$(basename $(wildcard test/*.java))))
