@@ -7,6 +7,9 @@ JAVA         = java
 JAR          = jar
 JAVAC        = javac
 
+# Location of TAR command
+TAR          = tar
+
 # Location of AspectJ library directory and runtime JAR
 ASPECT_HOME  = /aspectj1.8/lib/
 ASPECTJRT    = $(ASPECT_HOME)aspectjrt.jar
@@ -50,16 +53,20 @@ test.jar: $(addprefix bin/,$(addsuffix .class,$(basename $(wildcard test/*.java)
 ####
 
 # Make the archive file for submission
-archive: $(ARCHIVE).zip
-$(ARCHIVE).zip: q*/$(USER)/*
+archive: $(ARCHIVE).zip $(ARCHIVE).tar.gz
+$(ARCHIVE).zip $(ARCHIVE).tar.gz: q*/$(USER)/*
 
 # Make the archive file for sharing the test harness
-harness: $(TEST_ARCHIVE).zip
-$(TEST_ARCHIVE).zip: test/*.java makefile readme.md q*/*.java
+harness: $(TEST_ARCHIVE).zip $(TEST_ARCHIVE).tar.gz
+$(TEST_ARCHIVE).zip $(TEST_ARCHIVE).tar.gz: test/*.java makefile readme.md q*/*.java
 
 # Actually make the zip files
 %.zip:
 	$(JAR) cMf $@ $^
+
+# Actually make the tar.gz files
+%.tar.gz:
+	$(TAR) czf $@ $^
 
 
 ####
@@ -76,7 +83,7 @@ test%: q%.jar test.jar
 
 # Deletes everything
 cleanall:
-	rm -rf bin *.csv *.jar ajcore.*.txt $(ARCHIVE).zip $(TEST_ARCHIVE).zip
+	rm -rf bin *.csv *.jar ajcore.*.txt $(ARCHIVE).* $(TEST_ARCHIVE).*
 
 # Deletes the output of running the code
 clean:
