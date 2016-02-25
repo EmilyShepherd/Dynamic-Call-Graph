@@ -12,8 +12,8 @@ public class Main
      */
 	public static void main(String[] args)
 	{
-		B a = new B();
+		A a = new A();
 
-		System.out.println(a.foo(4));
+        a.foo(3);
 	}
 }

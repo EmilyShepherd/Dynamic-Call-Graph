@@ -1,8 +1,18 @@
 package q1;
 
+/**
+ * Abstract test class
+ */
 public class B
 {
-	public int foo(int a)
+	private int val;
+
+	public B(int val)
+	{
+		this.val = val;
+	}
+
+	public int foo()
 	{
 		bar(1);
 		return 0;

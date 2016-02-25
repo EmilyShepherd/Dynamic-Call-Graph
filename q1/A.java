@@ -1,20 +1,24 @@
 package q1;
 
+/**
+ * Abstract test class
+ */
 public class A
 {
 	public int foo(int a)
 	{
-		bar();
-		return 0;
+		return bar() + baz(a * 2);
 	}
 
-	private void bar()
+	private int bar()
 	{
-		baz(4);
+		return baz(4);
 	}
 	
 	public int baz(int a)
 	{
-		return a + a;
+		B b = new B(a);
+
+		return b.foo() + b.bar(a);
 	}
 } 
