@@ -30,7 +30,7 @@ all: q1.jar q2.jar q3.jar
 
 # Build Native Java class files
 bin/%.class: %.java bin/.keep
-	$(JAVAC) -cp "./;$(ASPECTJRT)" -implicit:none -d bin $<
+	$(JAVAC) -cp "./;$(ASPECTJRT);test.jar" -implicit:none -d bin $<
 
 # Build AspectJ class files
 bin/%.class: %.aj bin/.keep
