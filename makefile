@@ -4,8 +4,8 @@ AJC          = ajc
 
 # Location of Java and Jar commands
 JAVA         = java
-JAR          = "C:/Program Files/Java/jdk1.8.0_73/bin/jar"
-JAVAC        = "C:/Program Files/Java/jdk1.8.0_73/bin/javac"
+JAR          = jar
+JAVAC        = javac
 
 # Location of AspectJ library directory and runtime JAR
 ASPECT_HOME  = /aspectj1.8/lib/
