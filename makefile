@@ -20,7 +20,7 @@ TEST_ARCHIVE = COMP6209_harness
 ################################################################
 
 # By default, compile everything
-all: q1.jar q2.jar q3.jar
+all: q1.jar q2.jar q3.jar test.jar
 
 # To compile each JAR, compile the java files in its directory,
 # including the user's subdirectory, along with all AspectJ files
@@ -28,11 +28,17 @@ all: q1.jar q2.jar q3.jar
 %.jar:
 	$(AJC) $^ -outjar $@
 
+# Build test harness class files
+bin/test/%.class: test/%.java
+	if ! [ -d bin ]; then mkdir bin; fi
+	$(JAVAC) -implicit:none -d bin $<
+
+# Build the test JAR
+test.jar: bin/$(basename $(wildcard test/*.java)).class
+	cd bin && $(JAR) cf ../$@ test/$(notdir $^)
+
 
 ####
-
-TestHarness.class: TestHarness.java
-	$(JAVAC) TestHarness.java
 
 # Make the archive file for submission
 archive: $(ARCHIVE).zip
@@ -40,11 +46,12 @@ $(ARCHIVE).zip: q*/$(USER)/*
 
 # Make the archive file for sharing the test harness
 harness: $(TEST_ARCHIVE).zip
-$(TEST_ARCHIVE).zip: TestHarness.java makefile readme.md q*/*.java
+$(TEST_ARCHIVE).zip: test/*.java makefile readme.md q*/*.java
 
 # Actually make the zip files
 %.zip:
 	$(JAR) cMf $@ $^
+
 
 ####
 
@@ -52,15 +59,15 @@ $(TEST_ARCHIVE).zip: TestHarness.java makefile readme.md q*/*.java
 runtests: test1 test2 test3
 
 # Runs a specific test
-test%: q%.jar TestHarness.class
-	$(JAVA) -cp "./;$(ASPECTJRT);$<" TestHarness $(basename $<)
+test%: q%.jar test.jar
+	$(JAVA) -cp "$(ASPECTJRT);$<;test.jar" test.TestHarness $(basename $<)
 
 
 ####
 
 # Deletes everything
 cleanall:
-	rm -f *.class *.csv *.jar ajcore.*.txt $(ARCHIVE).zip $(TEST_ARCHIVE).zip
+	rm -rf bin *.csv *.jar ajcore.*.txt $(ARCHIVE).zip $(TEST_ARCHIVE).zip
 
 # Deletes the output of running the code
 clean:
