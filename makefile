@@ -83,7 +83,7 @@ test%: q%.jar test.jar
 
 # Deletes everything
 cleanall:
-	rm -rf bin *.csv *.jar ajcore.*.txt $(ARCHIVE).* $(TEST_ARCHIVE).*
+	rm -rf bin *.csv q*.jar test.jar ajcore.*.txt $(ARCHIVE).* $(TEST_ARCHIVE).*
 
 # Deletes the output of running the code
 clean:
