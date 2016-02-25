@@ -30,11 +30,11 @@ all: q1.jar q2.jar q3.jar test.jar
 
 # Build Native Java class files
 bin/%.class: %.java bin/.keep
-	$(JAVAC) -classpath "./;$(ASPECTJRT)" -implicit:none -d bin $<
+	$(JAVAC) -cp "./;$(ASPECTJRT)" -implicit:none -d bin $<
 
 # Build AspectJ class files
 bin/%.class: %.aj bin/.keep
-	$(AJC) -d bin -classpath "bin;$(ASPECTJRT)" $<
+	$(AJC) -d bin -cp "bin;$(ASPECTJRT)" $<
 
 # Makes the bin folder, required by JavaC
 %/.keep:
