@@ -91,4 +91,5 @@ q1.jar: $(addsuffix .class,$(basename $(addprefix bin/,$(wildcard q1/*.java q1/$
 q2.jar: $(addsuffix .class,$(basename $(addprefix bin/,$(wildcard q2/*.java q2/$(USER)/*.java q2/$(USER)/*.aj))))
 q3.jar: $(addsuffix .class,$(basename $(addprefix bin/,$(wildcard q3/*.java q3/$(USER)/*.java q3/$(USER)/*.aj))))
 
+# Add test.jar as a dependancy of the specific question package files
 $(addsuffix .class,$(basename $(addprefix bin/,$(wildcard q*/*.java)))): test.jar
