@@ -25,8 +25,10 @@ all: q1.jar q2.jar q3.jar
 # To compile each JAR, compile the java files in its directory,
 # including the user's subdirectory, along with all AspectJ files
 # found
-%.jar:
-	$(AJC) -inpath bin/ -aspectpath bin/$(basename $@)/$(USER) -outjar $@
+%.jar: bin/.tmp/.keep
+	mv -f bin/$(basename $@) bin/.tmp
+	$(AJC) -inpath bin/.tmp -aspectpath bin/.tmp/$(basename $@)/$(USER) -outjar $@
+	mv -f bin/.tmp/$(basename $@) bin
 
 # Build Native Java class files
 bin/%.class: %.java bin/.keep
@@ -39,7 +41,6 @@ bin/%.class: %.aj bin/.keep
 # Makes the bin folder, required by JavaC
 %/.keep:
 	@if ! [ -d $(dir $@) ]; then mkdir $(dir $@); fi
-	touch $@
 
 # Build the test JAR
 test.jar: $(addprefix bin/,$(addsuffix .class,$(basename $(wildcard test/*.java))))
