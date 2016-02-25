@@ -1,5 +1,7 @@
 package q2;
 
+import test.TestingException;
+
 public class B
 {
 	public int foo(int a)

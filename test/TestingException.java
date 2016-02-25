@@ -1,4 +1,4 @@
-package q2;
+package test;
 
 public class TestingException extends RuntimeException
 {
